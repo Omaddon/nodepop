@@ -5,8 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+require('./lib/connectMongoose');
+require('./models/Anuncio');
+require('./models/Usuario');
 
 var app = express();
 
@@ -22,8 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/pruebas', require('./routes/pruebas'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,13 +36,23 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+
+  if (isAPI(req)) {
+    res.json({success: false, error: err.message});
+    return;
+  }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
   res.render('error');
 });
+
+function isAPI(req) {
+  return req.originalUrl.indexOf('/apiv') === 0;
+}
 
 module.exports = app;
