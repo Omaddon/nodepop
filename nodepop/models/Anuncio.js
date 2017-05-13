@@ -15,8 +15,7 @@ const anuncioSchema = mongoose.Schema({
 anuncioSchema.statics.deleteAll = function (callback) {
     Anuncio.remove({}, err => {
         if (err) { return callback(err); }
-
-        console.log('>> Éxito!! nodepop inicializada correctamente.');
+        
         callback(null);
     });
 }
