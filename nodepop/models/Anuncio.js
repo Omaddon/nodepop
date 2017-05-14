@@ -20,7 +20,7 @@ anuncioSchema.statics.deleteAll = function (callback) {
     });
 }
 
-anuncioSchema.statics.list = function(filter, callback) {
+anuncioSchema.statics.list = function(filter, limit, skip, sort, callback) {
     
     const query = Anuncio.find(filter);
 

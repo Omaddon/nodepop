@@ -14,6 +14,9 @@ router.get('/', (req, res, next) => {
     const venta = req.query.venta;
     const nombre = req.query.nombre;
     const precio = req.query.precio;
+    const limit = parseInt(req.query.limit);
+    const skip = parseInt(req.query.skip);
+    const sort = req.query.sort;
 
     // REVISAR Tags... así no, mediante condiciones (.find({ tag: { $in: ["A", "D"] }))
     if ((tag) && ((tag === 'work') || (tag === 'lifestyle') || (tag === 'motor') || (tag === 'mobile'))) {
@@ -31,7 +34,7 @@ router.get('/', (req, res, next) => {
 
 
     // Llamada al filto
-    Anuncio.list(filter, (err, anuncios) => {
+    Anuncio.list(filter, limit, skip, sort, (err, anuncios) => {
         if (err) { return next(err) }
 
         res.json({ success: true, result: anuncios });
