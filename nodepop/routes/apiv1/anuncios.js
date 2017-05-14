@@ -7,12 +7,45 @@ const Anuncio = require('../../models/Anuncio');
 /* ---------------------------- GET ---------------------------- */
 
 router.get('/', (req, res, next) => {
-    Anuncio.find({}).exec((err, anuncios) => {
-        if (err) { return next(err) };
 
-        res.json({success: true, result: anuncios});
+    const filter = {};
+
+    const tag = req.query.tag;
+    const venta = req.query.venta;
+    const nombre = req.query.nombre;
+    const precio = req.query.precio;
+
+    // REVISAR Tags... así no, mediante condiciones (.find({ tag: { $in: ["A", "D"] }))
+    if ((tag) && ((tag === 'work') || (tag === 'lifestyle') || (tag === 'motor') || (tag === 'mobile'))) {
+        filter.tags = tag;
+    }
+
+    if ((venta === 'true') || (venta === 'false')) {
+        filter.venta = venta;
+    }
+
+    // REVISAR nombre... así no, mediante (filter.nombre = new RegExp('^' + req.query.nombre, "i"))
+    if (nombre) { filter.nombre = nombre; }
+    
+    if (precio) { filter.precio = precio; }
+
+
+    // Llamada al filto
+    Anuncio.list(filter, (err, anuncios) => {
+        if (err) { return next(err) }
+
+        res.json({ success: true, result: anuncios });
     });
+
 });
+
+// router.get('/', (req, res, next) => {
+//     Anuncio.find({}).exec((err, anuncios) => {
+//         if (err) { return next(err) };
+
+//         res.json({success: true, result: anuncios});
+//     });
+// });
 
 
 /* ---------------------------- POST ---------------------------- */

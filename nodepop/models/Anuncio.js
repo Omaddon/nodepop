@@ -20,14 +20,13 @@ anuncioSchema.statics.deleteAll = function (callback) {
     });
 }
 
-// Crear método estático de búsqueda para los anuncios:
-/*
+anuncioSchema.statics.list = function(filter, callback) {
+    
+    const query = Anuncio.find(filter);
 
-anuncioSchema.statics.list = function (..., callback) {
-
+    query.exec(callback);
 };
 
-*/
 
 var Anuncio = mongoose.model('Anuncio', anuncioSchema);
 

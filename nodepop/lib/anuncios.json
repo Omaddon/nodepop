@@ -19,6 +19,44 @@
                 "lifestyle",
                 "mobile"
             ]
+        },
+        {
+            "nombre": "Tardis",
+            "venta": false,
+            "precio": 5000.00,
+            "foto": "tardis.jpg",
+            "tags": [
+                "work",
+                "mobile"
+            ]
+        },
+        {
+            "nombre": "Sable Laser",
+            "venta": true,
+            "precio": 120.99,
+            "foto": "sableLaser.png",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "iPhone 7",
+            "venta": true,
+            "precio": 800.00,
+            "foto": "iphone7.png",
+            "tags": [
+                "lifestyle",
+                "mobile"
+            ]
+        },
+        {
+            "nombre": "Troncomovil",
+            "venta": true,
+            "precio": 2000.00,
+            "foto": "troncomovil.jpg",
+            "tags": [
+                "motor"
+            ]
         }
     ]
 }

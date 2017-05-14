@@ -73,7 +73,7 @@ Anuncio.deleteAll(err => {
         guardarTodos(anuncios)
             .then((anuncioGuardado) => {
                 console.log('...db cargada con JSON: OK\n' 
-                + anuncios.length + ' anuncios guardados.\n'
+                + anuncios.length + ' anuncios guardados.\n\n'
                 + ">> 'nodepop' inicializada correctamente.\n");
                 mongoose.connection.close();
             })
