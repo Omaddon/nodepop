@@ -9,6 +9,11 @@ const path = require('path');
 
 mongoose.connect('mongodb://localhost/nodepop');
 
+/*
+    FALTA añadir la carga de algunos usuarios a la db (así como su borrado previo).
+ */
+
+
 /* --------------------------------- Funciones Aux --------------------------------- */
 
 function guardar (anuncio) {
@@ -76,7 +81,5 @@ Anuncio.deleteAll(err => {
                 console.log('>> Error al guardar datos en la db desde el JSON.\n', err);
                 mongoose.connection.close();
             });
-       
     });
-
 });
