@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Anuncio = require('../models/Anuncio');
+const Usuario = require('../models/Usuario');
 const fs = require('fs');
 const path = require('path');
 
@@ -16,7 +17,7 @@ mongoose.connect('mongodb://localhost/nodepop');
 
 /* --------------------------------- Funciones Aux --------------------------------- */
 
-function guardar (anuncio) {
+function guardarAnuncio (anuncio) {
     return new Promise((resolve, reject) => {
         
         const anuncioNuevo = new Anuncio(anuncio);
@@ -32,12 +33,29 @@ function guardar (anuncio) {
     });
 }
 
+function guardarUsuario(usuario) {
+    return new Promise((resolve, reject) => {
+
+        const usuarioNuevo = new Usuario(usuario);
+        usuarioNuevo.save((err, usuarioGuardado) => {
+
+            if (err) { reject(err) }
+
+            resolve(usuarioGuardado);
+        });
+
+    });
+}
+
 
 async function guardarTodos(anuncios) {
 
     for (let i = 0; i < anuncios.length; i++) {
-        await guardar(anuncios[i]);
+        await guardarAnuncio(anuncios[i]);
     }
+
+    // const usuario = JSON.parse('{ "usuarios": [{ "nombre": "yoda", "email": "yoda@gmail.com", "clave": "1234" }]}');
+    // await guardarUsuario(usuario);
 
 }
 
@@ -71,10 +89,11 @@ Anuncio.deleteAll(err => {
         console.log('...Parseado del JSON: OK');
 
         guardarTodos(anuncios)
-            .then((anuncioGuardado) => {
+            .then((usuarioCargado) => {
                 console.log('...db cargada con JSON: OK\n' 
-                + anuncios.length + ' anuncios guardados.\n\n'
-                + ">> 'nodepop' inicializada correctamente.\n");
+                + anuncios.length + ' anuncios guardados.\n'
+                //+ '1 usuario cargado correctamente: ' + usuario
+                + "\n\n>> 'nodepop' inicializada correctamente.\n");
                 mongoose.connection.close();
             })
             .catch((err) =>{

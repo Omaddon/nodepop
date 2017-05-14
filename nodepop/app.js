@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
+app.use('/images/anuncios', require('./routes/images/anuncios'));
 app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
 
 // catch 404 and forward to error handler
@@ -40,8 +41,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 
   if (isAPI(req)) {
-    // customError(err);
-    res.json({success: false, error: err.message});
+    res.json({success: false, error: customError(err, 'es')});
     return;
   }
 
@@ -54,7 +54,8 @@ app.use(function(err, req, res, next) {
 });
 
 function isAPI(req) {
-  return req.originalUrl.indexOf('/apiv') === 0;
+  return ((req.originalUrl.indexOf('/apiv') === 0) || 
+    req.originalUrl.indexOf('/images') === 0) ;
 }
 
 module.exports = app;
