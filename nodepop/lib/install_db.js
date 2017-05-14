@@ -9,6 +9,35 @@ const path = require('path');
 
 mongoose.connect('mongodb://localhost/nodepop');
 
+/* --------------------------------- Funciones Aux --------------------------------- */
+
+function guardar (anuncio) {
+    return new Promise((resolve, reject) => {
+        
+        const anuncioNuevo = new Anuncio(anuncio);
+        anuncioNuevo.save((err, anuncioGuardado) => {
+
+            if (err){
+                reject(err);
+            }
+
+            // console.log('Anuncio ' + anuncioNuevo + ' guardado.');
+            resolve(anuncioGuardado);
+            });
+    });
+}
+
+
+async function guardarTodos(anuncios) {
+
+    for (let i = 0; i < anuncios.length; i++) {
+        await guardar(anuncios[i]);
+    }
+
+}
+
+
+
 /* --------------------------------- BORRADO --------------------------------- */
 
 Anuncio.deleteAll(err => {
@@ -34,24 +63,20 @@ Anuncio.deleteAll(err => {
         }
 
         const anuncios = anuncioJSON.anuncios || '';
-        console.log('...Parseado del JSON: OK')
+        console.log('...Parseado del JSON: OK');
 
-        for (let i = 0; i < anuncios.length; i++) {
-            const nuevoAnuncio = new Anuncio(anuncios[i]);
-            nuevoAnuncio.save((err, anuncioGuardado) => {
-                
-                if (err) { return console.log('Error al guardar en la db:', err) };                
+        guardarTodos(anuncios)
+            .then((anuncioGuardado) => {
+                console.log('...db cargada con JSON: OK\n' 
+                + anuncios.length + ' anuncios guardados.\n'
+                + ">> 'nodepop' inicializada correctamente.\n");
+                mongoose.connection.close();
+            })
+            .catch((err) =>{
+                console.log('>> Error al guardar datos en la db desde el JSON.\n', err);
+                mongoose.connection.close();
             });
-        }
-
-        console.log('...db cargada con el JSON: OK\n' + anuncios.length + ' anuncios guardados.\n');
-
+       
     });
 
 });
-
-
-
-
-
-mongoose.connection.close();
