@@ -18,37 +18,42 @@ router.get('/', (req, res, next) => {
     const skip = parseInt(req.query.skip);
     const sort = req.query.sort;
 
-    // REVISAR Tags... así no, mediante condiciones (.find({ tag: { $in: ["A", "D"] }))
-    if ((tag) && ((tag === 'work') || (tag === 'lifestyle') || (tag === 'motor') || (tag === 'mobile'))) {
-        filter.tags = tag;
-    }
+//tag=mobile&venta=false&nombre=iPhone%203GS&precio=50&limit=2&sort=precio
 
+    // TAG*
+    // filter.tags = {'$in': [tag]};
+
+    // VENTA
     if ((venta === 'true') || (venta === 'false')) {
         filter.venta = venta;
     }
 
-    // REVISAR nombre... así no, mediante (filter.nombre = new RegExp('^' + req.query.nombre, "i"))
+    // NOMBRE*
     if (nombre) { filter.nombre = nombre; }
     
-    if (precio) { filter.precio = precio; }
+    // PRECIO
+    if (typeof(precio) !== 'undefined') { 
+        if (precio.endsWith('-')){
+            filter.precio = { '$gte': parseInt(precio.replace('-','')) }; 
+        } else if (precio.startsWith('-')) {
+            filter.precio = { '$lte': parseInt(precio.replace('-','')) }; 
+        } else if (!precio.includes('-')) {
+            filter.precio = parseInt(precio);
+        } else {
+            const precioArray = precio.split('-');
+            filter.precio = { '$gte': precioArray[0], '$lte': precioArray[1] };
+        }
+    }
 
 
-    // Llamada al filto
     Anuncio.list(filter, limit, skip, sort, (err, anuncios) => {
         if (err) { return next(err) }
 
         res.json({ success: true, result: anuncios });
+        return;
     });
-
 });
 
-// router.get('/', (req, res, next) => {
-//     Anuncio.find({}).exec((err, anuncios) => {
-//         if (err) { return next(err) };
-
-//         res.json({success: true, result: anuncios});
-//     });
-// });
 
 
 /* ---------------------------- POST ---------------------------- */

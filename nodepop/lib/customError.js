@@ -1,28 +1,39 @@
 'use strict';
 
-module.exports = (err, idioma) => {
+const fs = require('fs');
 
-    let mensaje = '';
+module.exports = (error, idioma, callback) => {
 
-    switch (err.code) {
-        case 'ENOENT':
-            console.log('\n>> ERROR:\n\n' + err.message + '\n');
-            if (idioma === 'es') {
-                mensaje = 'No existe la imagen que busca.';
-                break;
-            } else {
-                mensaje = "The image you are looking for doesn't exist.";
-                break;
+    let miError = '¿?';
+
+    fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
+            
+            if (err) { 
+                console.log('>> Error al leer el JSON.'); 
+                return (err);
             }
-        default: 
-            if (idioma === 'es') {
-                mensaje = 'Error inesperado.';
-                break;
-            } else {
-                mensaje = "Unexpecred error.";
-                break;
-            }
-    }
 
-    return mensaje;
+            try {
+
+                var anuncioJSON = JSON.parse(data);
+
+            } catch (e) {
+                console.log('>> Error al parsear el JSON.');
+                return e;
+            }
+
+            const keys = Object.keys(anuncioJSON);
+
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+
+                if (key === error.code) {
+                    console.log('>> ' + anuncioJSON[key][idioma]);
+                    miError = String(anuncioJSON[key][idioma]);
+                    callback(miError);
+                }
+            }
+
+            callback(miError);
+    });
 };

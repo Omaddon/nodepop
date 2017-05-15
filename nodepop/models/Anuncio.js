@@ -22,7 +22,12 @@ anuncioSchema.statics.deleteAll = function (callback) {
 
 anuncioSchema.statics.list = function(filter, limit, skip, sort, callback) {
     
+    console.log('Filtro en llamada:', filter);
+
     const query = Anuncio.find(filter);
+    query.limit(limit);
+    query.skip(skip);
+    query.sort(sort);
 
     query.exec(callback);
 };

@@ -52,7 +52,7 @@
         {
             "nombre": "Troncomovil",
             "venta": true,
-            "precio": 2000.00,
+            "precio": 230.15,
             "foto": "troncomovil.jpg",
             "tags": [
                 "motor"

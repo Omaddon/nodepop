@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-const customError = require('./lib/customError');
 require('./lib/connectMongoose');
 require('./models/Anuncio');
 require('./models/Usuario');
@@ -41,8 +40,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 
   if (isAPI(req)) {
-    res.json({success: false, error: customError(err, 'es')});
-    return;
+      res.json({success: false, error: err.message});
+      return;
   }
 
   // set locals, only providing error in development
