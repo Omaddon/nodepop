@@ -6,6 +6,7 @@ const Anuncio = require('../models/Anuncio');
 const Usuario = require('../models/Usuario');
 const fs = require('fs');
 const path = require('path');
+const service = require('./service');
 
 
 mongoose.connect('mongodb://localhost/nodepop');
@@ -35,7 +36,9 @@ function guardarUsuario(usuario) {
 
             if (err) { reject(err) }
 
-            resolve(usuarioGuardado);
+            const token = service.createToken(usuario);
+
+            resolve(token);
         });
 
     });
@@ -68,13 +71,14 @@ Anuncio.deleteAll(err => {
 
         console.log('...Borrado de la db Usuarios: OK');
 
-// TOKEN: yoda eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1OTE5ZWVhMWYwZDhmMTBjM2FlOWJjYmEiLCJpYXQiOjE0OTQ4NzE3MTMsImV4cCI6MTQ5NDg3MjAxM30.gI0hdeNq80W8rgLdnRYrj9Am0JRonEBA0CZUkpOyhzw
+        // TOKEN: ver consola
         guardarUsuario({
             nombre: "yoda",
             email: "yoda@gmail.com",
             clave: "1234"})
-            .then((usuarioGuardado) => {
+            .then((token) => {
                 console.log('...db cargada con Usuario de prueba: OK');
+                console.log('Token:\n' + 'yoda ' + token);
             })
             .catch((err) => {
                 console.log('>> Error al cargar el usuario de prueba en la db.\n', err);

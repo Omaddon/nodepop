@@ -9,6 +9,8 @@ const customError = require('../../lib/customError');
 
 router.get('/', (req, res, next) => {
 
+    console.log(req.usuario);
+
     const filter = {};
 
     const tag = req.query.tag;
@@ -16,7 +18,7 @@ router.get('/', (req, res, next) => {
     const nombre = req.query.nombre;
     const precio = req.query.precio;
     const limit = parseInt(req.query.limit);
-    const skip = parseInt(req.query.skip);
+    const skip = parseInt(req.query.start);
     const sort = req.query.sort;
 
 //localhost:3000/apiv1/anuncios?tag=mobile&venta=false&nombre=iPhone%203GS&precio=50&limit=2&sort=precio
