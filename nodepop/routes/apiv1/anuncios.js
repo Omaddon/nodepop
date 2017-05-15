@@ -58,10 +58,14 @@ router.get('/', (req, res, next) => {
         if (err) { return next(err) }
 
         res.json({ success: true, result: anuncios });
-        return;
     });
 });
 
+
+router.get('/tags', (req, res, next) => {
+    const tags = ['work', 'lifestyle', 'motor', 'mobile'];
+    res.send({success: true, tags: tags});
+});
 
 
 /* ---------------------------- POST ---------------------------- */

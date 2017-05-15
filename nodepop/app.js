@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 
 require('./lib/connectMongoose');
 require('./models/Anuncio');
-require('./models/Usuario');
+const middlewareAuth = require('./routes/middlewareAuth');
+// const customError = require('./lib/customError');
 
 var app = express();
 
@@ -23,10 +24,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// -------------------------- RUTAS -------------------------- 
+app.post('/auth/signup', require('./routes/auth/authenticate').emailSignup);  
+app.post('/auth/login', require('./routes/auth/authenticate').emailLogin);
+
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
-app.use('/images/anuncios', require('./routes/images/anuncios'));
-app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
+// app.use('/users', require('./routes/users'));
+app.use('/images/anuncios', middlewareAuth.ensureAuthenticated, require('./routes/images/anuncios'));
+app.use('/apiv1/anuncios', middlewareAuth.ensureAuthenticated, require('./routes/apiv1/anuncios'));
+// -----------------------------------------------------------
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

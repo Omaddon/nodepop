@@ -10,11 +10,6 @@ const path = require('path');
 
 mongoose.connect('mongodb://localhost/nodepop');
 
-/*
-    FALTA añadir la carga de algunos usuarios a la db (así como su borrado previo).
- */
-
-
 /* --------------------------------- Funciones Aux --------------------------------- */
 
 function guardarAnuncio (anuncio) {
@@ -27,9 +22,8 @@ function guardarAnuncio (anuncio) {
                 reject(err);
             }
 
-            // console.log('Anuncio ' + anuncioNuevo + ' guardado.');
             resolve(anuncioGuardado);
-            });
+        });
     });
 }
 
@@ -53,10 +47,6 @@ async function guardarTodos(anuncios) {
     for (let i = 0; i < anuncios.length; i++) {
         await guardarAnuncio(anuncios[i]);
     }
-
-    // const usuario = JSON.parse('{ "usuarios": [{ "nombre": "yoda", "email": "yoda@gmail.com", "clave": "1234" }]}');
-    // await guardarUsuario(usuario);
-
 }
 
 
@@ -68,7 +58,29 @@ Anuncio.deleteAll(err => {
         return console.log('>> Error al inicializar la db de Anuncios. Error al borrar: ', err);
     }
 
-    console.log('...Borrado de la db: OK');
+    console.log('...Borrado de la db Anuncios: OK');
+
+    Usuario.deleteAll(err => {
+
+        if (err) {
+            return console.log('>> Error al inicializar la db de Usuarios. Error al borrar: ', err);
+        }
+
+        console.log('...Borrado de la db Usuarios: OK');
+
+// TOKEN: yoda eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1OTE5ZWVhMWYwZDhmMTBjM2FlOWJjYmEiLCJpYXQiOjE0OTQ4NzE3MTMsImV4cCI6MTQ5NDg3MjAxM30.gI0hdeNq80W8rgLdnRYrj9Am0JRonEBA0CZUkpOyhzw
+        guardarUsuario({
+            nombre: "yoda",
+            email: "yoda@gmail.com",
+            clave: "1234"})
+            .then((usuarioGuardado) => {
+                console.log('...db cargada con Usuario de prueba: OK');
+            })
+            .catch((err) => {
+                console.log('>> Error al cargar el usuario de prueba en la db.\n', err);
+            });
+
+    });
 
     /* --------------------------------- CARGA JSON --------------------------------- */
 
@@ -92,7 +104,6 @@ Anuncio.deleteAll(err => {
             .then((usuarioCargado) => {
                 console.log('...db cargada con JSON: OK\n' 
                 + anuncios.length + ' anuncios guardados.\n'
-                //+ '1 usuario cargado correctamente: ' + usuario
                 + "\n\n>> 'nodepop' inicializada correctamente.\n");
                 mongoose.connection.close();
             })
