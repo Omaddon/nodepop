@@ -20,7 +20,7 @@ anuncioSchema.statics.deleteAll = function (callback) {
     });
 }
 
-anuncioSchema.statics.list = function(filter, limit, skip, sort, callback) {
+anuncioSchema.statics.list = function(filter, limit, skip, sort, fields, callback) {
     
     console.log('Filtro en llamada:', filter);
 
@@ -28,6 +28,7 @@ anuncioSchema.statics.list = function(filter, limit, skip, sort, callback) {
     query.limit(limit);
     query.skip(skip);
     query.sort(sort);
+    query.select(fields);
 
     query.exec(callback);
 };

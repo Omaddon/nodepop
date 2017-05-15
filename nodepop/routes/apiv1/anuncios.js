@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
+const customError = require('../../lib/customError');
 
 /* ---------------------------- GET ---------------------------- */
 
@@ -18,18 +19,22 @@ router.get('/', (req, res, next) => {
     const skip = parseInt(req.query.skip);
     const sort = req.query.sort;
 
-//tag=mobile&venta=false&nombre=iPhone%203GS&precio=50&limit=2&sort=precio
+//localhost:3000/apiv1/anuncios?tag=mobile&venta=false&nombre=iPhone%203GS&precio=50&limit=2&sort=precio
 
-    // TAG*
-    // filter.tags = {'$in': [tag]};
+    // TAG (falla con 2 tags)
+    if ((tag === 'work') || (tag === 'lifestryle') || (tag === 'motor') || (tag === 'mobile')) {
+        filter.tags = tag;
+    }
 
     // VENTA
     if ((venta === 'true') || (venta === 'false')) {
         filter.venta = venta;
     }
 
-    // NOMBRE*
-    if (nombre) { filter.nombre = nombre; }
+    // NOMBRE
+    if (nombre) { 
+        filter.nombre = new RegExp('^' + req.query.nombre, "i"); 
+    }
     
     // PRECIO
     if (typeof(precio) !== 'undefined') { 
@@ -45,8 +50,11 @@ router.get('/', (req, res, next) => {
         }
     }
 
+    // Fields (para eliminar _id y __v)
+    const fields = { '_id': 0, '__v': 0 };    
+    
 
-    Anuncio.list(filter, limit, skip, sort, (err, anuncios) => {
+    Anuncio.list(filter, limit, skip, sort, fields, (err, anuncios) => {
         if (err) { return next(err) }
 
         res.json({ success: true, result: anuncios });
@@ -65,6 +73,17 @@ router.post('/', (req, res, next) => {
         if (err) { return next(err) };
 
         res.json({success: true, result: anuncioGuardado});
+    });
+});
+
+
+/* ---------------------------- err ---------------------------- */
+
+router.use((err, req, res, next) => {
+    customError(err, 'es', (miError) => {
+        console.log('miError:', miError);
+        res.json({success: false, error: miError});
+        return;
     });
 });
 

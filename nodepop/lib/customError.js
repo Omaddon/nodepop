@@ -4,13 +4,16 @@ const fs = require('fs');
 
 module.exports = (error, idioma, callback) => {
 
+    console.log('>>>\n\nERROR:\n' + error.code + '\n\n');
+
     let miError = '¿?';
 
     fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
             
             if (err) { 
                 console.log('>> Error al leer el JSON.'); 
-                return (err);
+                callback(err);
+                return;
             }
 
             try {
@@ -19,7 +22,8 @@ module.exports = (error, idioma, callback) => {
 
             } catch (e) {
                 console.log('>> Error al parsear el JSON.');
-                return e;
+                callback(e);
+                return;
             }
 
             const keys = Object.keys(anuncioJSON);
@@ -31,6 +35,7 @@ module.exports = (error, idioma, callback) => {
                     console.log('>> ' + anuncioJSON[key][idioma]);
                     miError = String(anuncioJSON[key][idioma]);
                     callback(miError);
+                    return;
                 }
             }
 

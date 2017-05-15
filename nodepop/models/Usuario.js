@@ -8,7 +8,11 @@ const mongoose = require('mongoose');
 
 const usuarioSchema = mongoose.Schema({
     nombre: String,
-    email: String,
+    email: {
+        type: String,
+        index: true,
+        unique: true
+    },
     clave: String
 });
 

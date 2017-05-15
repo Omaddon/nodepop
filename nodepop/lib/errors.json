@@ -6,5 +6,9 @@
     "USER_NOT_FOUND": {
         "es": "El usuario no existe.",
         "en": "User doesn't exist."
+    },
+    "SyntaxError": {
+        "es": "No existe la imagen que busca.",
+        "en": "The image you are looking for doesn't exist."
     }
 }
