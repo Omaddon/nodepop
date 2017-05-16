@@ -47,7 +47,7 @@ app.use((req, res, next) => {
     } else if (req.headers.language) {
 
       /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
-      error = new Error('IDIOM_NOT_FOUND');
+      const error = new Error('IDIOM_NOT_FOUND');
       error.code = 'IDIOM_NOT_FOUND';
 
       return customError(error, idioma)

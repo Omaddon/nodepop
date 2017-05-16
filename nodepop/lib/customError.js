@@ -4,11 +4,11 @@ const fs = require('fs');
 
 module.exports = (error, idioma) => {
 
-    console.log('\nERROR:', error.code);
+    console.log('\nERROR en customError:', error.code);
 
     return new Promise((resolve, reject) => {
 
-        let miError = {};
+        let miError = {message: 'Error inesperado.', code: '501'};
 
         fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
                 
@@ -26,6 +26,11 @@ module.exports = (error, idioma) => {
                     return reject(e);
                 }
 
+                // Para captar el código de error de duplicada en db (necesita ser un String)
+                if (error.code === 11000) {
+                    error.code = String(11000);
+                }
+
                 const keys = Object.keys(errJSON);
 
                 for (let i = 0; i < keys.length; i++) {
@@ -39,7 +44,7 @@ module.exports = (error, idioma) => {
                     }
                 }
 
-                resolve(miError, code);
+                resolve(miError);
         });
     });
 };

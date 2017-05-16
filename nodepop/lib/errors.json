@@ -38,5 +38,25 @@
         "es": "Error. Idioma no soportado (es/en).",
         "en": "Error. Language not supported (es/en).",
         "code": 406
+    },
+    "EMAIL_FAIL": {
+        "es": "Error. Email incorrecto.",
+        "en": "Error. Email incorrect.",
+        "code": 406
+    },
+    "NAME_FAIL": {
+        "es": "Error. Nombre incorrecto.",
+        "en": "Error. Namel incorrect.",
+        "code": 406
+    },
+    "PASS_FAIL": {
+        "es": "Error. Clave incorrecta.",
+        "en": "Error. Pass incorrect.",
+        "code": 406
+    },
+    "11000": {
+        "es": "Error. Duplicado en db.",
+        "en": "Error. Duplicated in db.",
+        "code": 501
     }
 }
