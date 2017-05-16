@@ -77,6 +77,7 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
           next(err);
         });
   }
+/* -------------------------------------------------------------------------------- */
 
   req.usuario = payload.sub;
   next();
