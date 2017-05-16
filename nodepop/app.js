@@ -43,15 +43,15 @@ app.use((req, res, next) => {
     let idioma = 'es';
 
     if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
-        idioma = req.headers.language;
+      idioma = req.headers.language;
     }
 
     const err = new Error('Not_Found');
-    err.code = 'Not_Found'; 
-    
+    err.code = 'Not_Found';
+
     return customError(err, idioma)
       .then((miError) => {
-        res.json({success: false, error: miError})
+        res.json({ success: false, error: miError })
       })
       .catch((e) => {
         next(e);
@@ -60,17 +60,7 @@ app.use((req, res, next) => {
 /* ----------------------------------------------------------- */
 
 
-//catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler (error API)
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-
+app.use((err, req, res, next) => {
   if (isAPI(req)) {
 
     let idioma = 'es';
@@ -87,6 +77,21 @@ app.use(function(err, req, res, next) {
         next(err);
       });
   }
+  next(err);
+});
+
+/*
+//catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+*/
+// error handler (error API)
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
 
   // set locals, only providing error in development
   res.locals.message = err.message;

@@ -55,7 +55,7 @@ router.use((err, req, res, next) => {
         idioma = req.headers.language;
     }
     
-    customError(err, idioma)
+    return customError(err, idioma)
       .then((miError) => {
         res.json({success: false, error: miError})
       })

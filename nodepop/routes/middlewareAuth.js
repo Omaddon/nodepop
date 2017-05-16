@@ -19,13 +19,16 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 /* ---------------------------- ERRORES DE FALTA DE AUTH ---------------------------- */
   if ((!req.headers.token) && (!req.body.token) && (!req.query.token)) {
 
-    switch (idioma) {
-      case 'es':
-        return res.json({ success: false, result: 'Error. Tu petición no tiene cabecera de autorización.' });
-      case 'en':
-        return res.json({ success: false, result: 'Error. Your request has no authorization header.' });
-    }
+    error = new Error('AUTH FAIL');
+    error.code = 'AUTH FAIL';
 
+    return customError(error, idioma)
+      .then((miError) => {
+        res.json({success: false, error: miError})
+      })
+      .catch((err) => {
+        next(err);
+      });
   }
   /* -------------------------------------------------------------------------------- */
 
@@ -50,21 +53,29 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 /* ------------------------------ ERRORES DE DECODE ------------------------------ */
   if ((payload) && (payload.exp <= moment().unix())) {
 
-    switch (idioma) {
-      case 'es':
-        return res.send({ success: false, result: 'Error. El token ha expirado.' });
-      case 'en':
-        return res.send({ success: false, result: 'Error. The token has expired.' });
-    }
+    error = new Error('TOKEN EXPIRED');
+    error.code = 'TOKEN EXPIRED';
+
+    return customError(error, idioma)
+      .then((miError) => {
+        res.json({ success: false, error: miError })
+      })
+      .catch((err) => {
+        next(err);
+      });
 
   } else if (!payload) {
 
-    switch (idioma) {
-      case 'es':
-        return res.send({ success: false, result: 'Error. El token es incorrecto.' });
-      case 'en':
-        return res.send({ success: false, result: 'Error. The token is incorrect.' });
-    }
+      error = new Error('TOKEN INCORRECT');
+      error.code = 'TOKEN INCORRECT';
+
+      return customError(error, idioma)
+        .then((miError) => {
+          res.json({ success: false, error: miError })
+        })
+        .catch((err) => {
+          next(err);
+        });
   }
 
   req.usuario = payload.sub;

@@ -1,7 +1,7 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
-const moment = require('moment');      // Para el formateo de fechas y demás
+const moment = require('moment');       // Para el formateo de fechas y demás
 const config = require('./config');     // Nuestro token secreto para el jwt
 
 
