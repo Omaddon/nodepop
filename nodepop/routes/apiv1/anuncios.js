@@ -3,9 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
+const tags = require('../../lib/tags');
 const customError = require('../../lib/customError');
 
-/* ---------------------------- GET ---------------------------- */
+/* ---------------------------- GET /apiv1/anuncios ---------------------------- */
 
 router.get('/', (req, res, next) => {
 
@@ -25,7 +26,7 @@ router.get('/', (req, res, next) => {
 //localhost:3000/apiv1/anuncios?tag=mobile&venta=false&precio=50&limit=2&sort=precio
 
     // TAG (falla con 2 tags)
-    if ((tag === 'work') || (tag === 'lifestryle') || (tag === 'motor') || (tag === 'mobile')) {
+    if (tags.indexOf(tag) >= 0) {
         filter.tags = tag;
     }
 
@@ -68,13 +69,14 @@ router.get('/', (req, res, next) => {
 });
 
 
+/* ---------------------------- GET /apiv1/anuncios/tags ---------------------------- */
+
 router.get('/tags', (req, res, next) => {
-    const tags = ['work', 'lifestyle', 'motor', 'mobile'];
     res.send({success: true, tags: tags});
 });
 
 
-/* ---------------------------- POST ---------------------------- */
+/* ---------------------------- POST /apiv1/anuncios ---------------------------- */
 
 router.post('/', (req, res, next) => {
     const nuevoAnuncio = new Anuncio(req.body);
