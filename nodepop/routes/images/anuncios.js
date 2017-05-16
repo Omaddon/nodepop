@@ -27,7 +27,7 @@ router.use((err, req, res, next) => {
     
     return customError(err, idioma)
       .then((miError) => {
-        res.json({success: false, error: miError})
+        res.json({ success: false, codeError: miError.code, error: miError.message });
       })
       .catch((err) => {
         next(err);

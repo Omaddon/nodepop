@@ -14,6 +14,20 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 
   if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
     idioma = req.headers.language;
+  } else if (req.headers.language) {
+
+  /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
+    error = new Error('IDIOM_NOT_FOUND');
+    error.code = 'IDIOM_NOT_FOUND';
+
+    return customError(error, idioma)
+      .then((miError) => {
+        res.json({ success: false, codeError: miError.code, error: miError.message });
+      })
+      .catch((err) => {
+        next(err);
+      });
+
   }
 
 /* ---------------------------- ERRORES DE FALTA DE AUTH ---------------------------- */
@@ -24,7 +38,7 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 
     return customError(error, idioma)
       .then((miError) => {
-        res.json({success: false, error: miError})
+        res.json({ success: false, codeError: miError.code, error: miError.message });
       })
       .catch((err) => {
         next(err);
@@ -58,7 +72,7 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 
     return customError(error, idioma)
       .then((miError) => {
-        res.json({ success: false, error: miError })
+        res.json({ success: false, codeError: miError.code, error: miError.message });
       })
       .catch((err) => {
         next(err);
@@ -71,7 +85,7 @@ module.exports.ensureAuthenticated = async(req, res, next) => {
 
       return customError(error, idioma)
         .then((miError) => {
-          res.json({ success: false, error: miError })
+          res.json({ success: false, codeError: miError.code, error: miError.message });
         })
         .catch((err) => {
           next(err);

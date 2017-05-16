@@ -1,30 +1,42 @@
 {
     "ENOENT": {
-        "es": "No existe la imagen que busca.",
-        "en": "The image you are looking for doesn't exist."
+        "es": "Error. No existe la imagen que busca.",
+        "en": "Error. The image you are looking for doesn't exist.",
+        "code": 501
     },
     "USER_NOT_FOUND": {
-        "es": "El usuario no existe.",
-        "en": "User doesn't exist."
+        "es": "Error. El usuario no existe.",
+        "en": "Error. User doesn't exist.",
+        "code": 404
     },
     "Not_Found": {
-        "es": "La página a la que intenta acceder no existe.",
-        "en": "The page you are trying to access doesn't exist."
+        "es": "Error. La página a la que intenta acceder no existe.",
+        "en": "Error. The page you are trying to access doesn't exist.",
+        "code": 404
     },
     "SyntaxError": {
-        "es": "No existe la imagen que busca.",
-        "en": "The image you are looking for doesn't exist."
+        "es": "Error. No existe la imagen que busca.",
+        "en": "Error. The image you are looking for doesn't exist.",
+        "code": 501
     },
     "AUTH FAIL": {
         "es": "Error. Tu petición no tiene cabecera de autorización.",
-        "en": "Error. Your request has no authorization header."
+        "en": "Error. Your request has no authorization header.",
+        "code": 401
     },
     "TOKEN EXPIRED": {
         "es": "Error. El token ha expirado.",
-        "en": "Error. The token has expired."
+        "en": "Error. The token has expired.",
+        "code": 500
     },
     "TOKEN INCORRECT": {
         "es": "Error. El token es incorrecto.",
-        "en": "Error. The token is incorrect."
+        "en": "Error. The token is incorrect.",
+        "code": 406
+    },
+    "IDIOM_NOT_FOUND": {
+        "es": "Error. Idioma no soportado (es/en).",
+        "en": "Error. Language not supported (es/en).",
+        "code": 406
     }
 }

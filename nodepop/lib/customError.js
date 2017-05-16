@@ -8,7 +8,7 @@ module.exports = (error, idioma) => {
 
     return new Promise((resolve, reject) => {
 
-        let miError = '¿?';
+        let miError = {};
 
         fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
                 
@@ -32,13 +32,14 @@ module.exports = (error, idioma) => {
                     const key = keys[i];
 
                     if (key === error.code) {
-                        console.log('\n>> ' + errJSON[key][idioma] + '\n');
-                        miError = String(errJSON[key][idioma]);
+                        console.log('\n>> ' + errJSON[key][idioma] + ' code: ' + errJSON[key]['code'] + '\n');
+                        miError.message = String(errJSON[key][idioma]);
+                        miError.code = String(errJSON[key]['code']);
                         return resolve(miError);
                     }
                 }
 
-                resolve(miError);
+                resolve(miError, code);
         });
     });
 };

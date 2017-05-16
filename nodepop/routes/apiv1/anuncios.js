@@ -58,7 +58,10 @@ router.get('/', (req, res, next) => {
     
 
     Anuncio.list(filter, limit, skip, sort, fields, (err, anuncios) => {
-        if (err) { return next(err) }
+        if (err) { 
+            console.log('\n\n >>> ERROR AL LEER DE LA BD:\n' + err + '\n\n');
+            return next(err) 
+        }
 
         res.json({ success: true, result: anuncios });
     });
@@ -97,7 +100,7 @@ router.use((err, req, res, next) => {
    
     return customError(err, idioma)
       .then((miError) => {
-        res.json({success: false, error: miError})
+        res.json({ success: false, codeError: miError.code, error: miError.message });
       })
       .catch((err) => {
         next(err);
