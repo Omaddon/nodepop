@@ -1,9 +1,0 @@
-{
-    "usuarios": [
-        {
-            "nombre": "yoda",
-            "email": "yoda@gmail.com",
-            "clave": "1234"
-        }
-    ]
-}

@@ -73,12 +73,12 @@ Anuncio.deleteAll(err => {
 
         // TOKEN: ver consola
         guardarUsuario({
-            nombre: "yoda",
-            email: "yoda@gmail.com",
+            nombre: "userTest",
+            email: "userTest@gmail.com",
             clave: "1234"})
             .then((token) => {
                 console.log('...db cargada con Usuario de prueba: OK');
-                console.log('TOKEN:\n' + 'yoda ' + token);
+                console.log('TOKEN:\n' + 'userTest ' + token);
             })
             .catch((err) => {
                 console.log('>> Error al cargar el usuario de prueba en la db.\n', err);
