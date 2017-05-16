@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 require('./lib/connectMongoose');
 require('./models/Anuncio');
 const middlewareAuth = require('./routes/middlewareAuth');
-// const customError = require('./lib/customError');
+const customError = require('./lib/customError');
 
 var app = express();
 
@@ -36,7 +36,31 @@ app.use('/apiv1/anuncios', middlewareAuth.ensureAuthenticated, require('./routes
 // -----------------------------------------------------------
 
 
-// catch 404 and forward to error handler
+/* ---------------------------- err ---------------------------- */
+
+app.use((req, res, next) => {
+
+    let idioma = 'es';
+
+    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+        idioma = req.headers.language;
+    }
+
+    const error = new Error('Not_Found');
+    error.code = 'Not_Found'; 
+    
+    customError(error, idioma)
+      .then((miError) => {
+        res.json({success: false, error: miError})
+      })
+      .catch((err) => {
+        next(err);
+      });
+});
+/* ----------------------------------------------------------- */
+
+
+//catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -62,7 +86,7 @@ app.use(function(err, req, res, next) {
 
 function isAPI(req) {
   return ((req.originalUrl.indexOf('/apiv') === 0) || 
-    req.originalUrl.indexOf('/images') === 0) ;
+    (req.originalUrl.indexOf('/images') === 0)) ;
 }
 
 module.exports = app;

@@ -78,7 +78,7 @@ Anuncio.deleteAll(err => {
             clave: "1234"})
             .then((token) => {
                 console.log('...db cargada con Usuario de prueba: OK');
-                console.log('Token:\n' + 'yoda ' + token);
+                console.log('TOKEN:\n' + 'yoda ' + token);
             })
             .catch((err) => {
                 console.log('>> Error al cargar el usuario de prueba en la db.\n', err);

@@ -2,43 +2,43 @@
 
 const fs = require('fs');
 
-module.exports = (error, idioma, callback) => {
+module.exports = (error, idioma) => {
 
-    console.log('>>>\n\nERROR:\n' + error.code + '\n\n');
+    console.log('\nERROR:', error.code);
 
-    let miError = '¿?';
+    return new Promise((resolve, reject) => {
 
-    fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
-            
-            if (err) { 
-                console.log('>> Error al leer el JSON.'); 
-                callback(err);
-                return;
-            }
+        let miError = '¿?';
 
-            try {
-
-                var anuncioJSON = JSON.parse(data);
-
-            } catch (e) {
-                console.log('>> Error al parsear el JSON.');
-                callback(e);
-                return;
-            }
-
-            const keys = Object.keys(anuncioJSON);
-
-            for (let i = 0; i < keys.length; i++) {
-                const key = keys[i];
-
-                if (key === error.code) {
-                    console.log('>> ' + anuncioJSON[key][idioma]);
-                    miError = String(anuncioJSON[key][idioma]);
-                    callback(miError);
-                    return;
+        fs.readFile('./lib/errors.json', 'utf-8', (err, data) => {
+                
+                if (err) { 
+                    console.log('>> Error al leer el JSON.'); 
+                    return reject(err);
                 }
-            }
 
-            callback(miError);
+                try {
+
+                    var errJSON = JSON.parse(data);
+
+                } catch (e) {
+                    console.log('>> Error al parsear el JSON.');
+                    return reject(e);
+                }
+
+                const keys = Object.keys(errJSON);
+
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+
+                    if (key === error.code) {
+                        console.log('\n>> ' + errJSON[key][idioma] + '\n');
+                        miError = String(errJSON[key][idioma]);
+                        return resolve(miError);
+                    }
+                }
+
+                resolve(miError);
+        });
     });
 };

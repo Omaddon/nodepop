@@ -10,6 +10,7 @@ const customError = require('../../lib/customError');
 router.get('/', (req, res, next) => {
 
     console.log(req.usuario);
+    console.log(process.env.TOKENEXP);
 
     const filter = {};
 
@@ -86,11 +87,21 @@ router.post('/', (req, res, next) => {
 /* ---------------------------- err ---------------------------- */
 
 router.use((err, req, res, next) => {
-    customError(err, 'es', (miError) => {
-        console.log('miError:', miError);
-        res.json({success: false, error: miError});
-        return;
-    });
+    
+    let idioma = 'es';
+    console.log('\n' + err + '\n');
+
+    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+        idioma = req.headers.language;
+    }
+   
+    customError(err, idioma)
+      .then((miError) => {
+        res.json({success: false, error: miError})
+      })
+      .catch((err) => {
+        next(err);
+      });
 });
 
 

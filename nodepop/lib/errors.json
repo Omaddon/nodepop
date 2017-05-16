@@ -7,8 +7,24 @@
         "es": "El usuario no existe.",
         "en": "User doesn't exist."
     },
+    "Not_Found": {
+        "es": "La página a la que intenta acceder no existe.",
+        "en": "The page you are trying to access doesn't exist."
+    },
     "SyntaxError": {
         "es": "No existe la imagen que busca.",
         "en": "The image you are looking for doesn't exist."
+    },
+    "AUTH FAIL": {
+        "es": "Error. Tu petición no tiene cabecera de autorización.",
+        "en": "Error. Your request has no authorization header."
+    },
+    "TOKEN EXPIRED": {
+        "es": "Error. El token ha expirado.",
+        "en": "Error. The token has expired."
+    },
+    "TOKEN INCORRECT": {
+        "es": "Error. El token es incorrecto.",
+        "en": "Error. The token is incorrect."
     }
 }

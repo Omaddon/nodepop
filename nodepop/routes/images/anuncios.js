@@ -17,12 +17,21 @@ router.get('/:foto', (req, res, next) => {
 /* ---------------------------- err ---------------------------- */
 
 router.use((err, req, res, next) => {
-    console.log(err);
-    customError(err, 'es', (miError) => {
-        console.log('miError:', miError);
-        res.json({success: false, error: miError});
-        return;
-    });
+
+    let idioma = 'es';
+    console.log('\n' + err + '\n');
+
+    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+        idioma = req.headers.language;
+    }
+    
+    customError(error, idioma)
+      .then((miError) => {
+        res.json({success: false, error: miError})
+      })
+      .catch((err) => {
+        next(err);
+      });
 });
 
 module.exports = router;
