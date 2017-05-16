@@ -36,7 +36,7 @@ app.use('/apiv1/anuncios', middlewareAuth.ensureAuthenticated, require('./routes
 // -----------------------------------------------------------
 
 
-/* ---------------------------- err ---------------------------- */
+/* ---------------------------- err 404 API ---------------------------- */
 
 app.use((req, res, next) => {
 
@@ -46,15 +46,15 @@ app.use((req, res, next) => {
         idioma = req.headers.language;
     }
 
-    const error = new Error('Not_Found');
-    error.code = 'Not_Found'; 
+    const err = new Error('Not_Found');
+    err.code = 'Not_Found'; 
     
-    customError(error, idioma)
+    return customError(err, idioma)
       .then((miError) => {
         res.json({success: false, error: miError})
       })
-      .catch((err) => {
-        next(err);
+      .catch((e) => {
+        next(e);
       });
 });
 /* ----------------------------------------------------------- */
@@ -67,13 +67,25 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
+// error handler (error API)
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
 
   if (isAPI(req)) {
-      res.json({success: false, error: err.message});
-      return;
+
+    let idioma = 'es';
+
+    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+      idioma = req.headers.language;
+    }
+
+    return customError(err, idioma)
+      .then((miError) => {
+        res.json({ success: false, error: miError })
+      })
+      .catch((err) => {
+        next(err);
+      });
   }
 
   // set locals, only providing error in development
@@ -85,8 +97,9 @@ app.use(function(err, req, res, next) {
 });
 
 function isAPI(req) {
-  return ((req.originalUrl.indexOf('/apiv') === 0) || 
-    (req.originalUrl.indexOf('/images') === 0)) ;
+  return ((req.originalUrl.indexOf('/apiv') === 0) 
+    || (req.originalUrl.indexOf('/images') === 0 
+    || (req.originalUrl.indexOf('/auth') === 0))) ;
 }
 
 module.exports = app;

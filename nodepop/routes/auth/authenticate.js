@@ -20,7 +20,7 @@ module.exports.emailSignup = (req, res, next) => {
     nuevoUsario.save((err, usuarioGuardado) => {
         if (err) { return next(err) }
 
-        res.send({ success: true, result: service.createToken(nuevoUsario) });
+        res.json({ success: true, result: service.createToken(nuevoUsario) });
     });
 };
 
@@ -31,11 +31,15 @@ module.exports.emailLogin = (req, res, next) => {
   Usuario.find({ email: req.body.email}, (err, usuarios) => {
     if (err) { return next(err) }
 
-    if ((usuarios) && (usuarios.clave === req.body.clave)) {
-      return res.send({success: true, result: service.createToken(usuarios)});
+    if (usuarios.length > 0) {
+        if (((usuarios)[0].clave) === req.body.clave) {
+            return res.json({ success: true, result: service.createToken(usuarios) });
+        }
     }
 
-    return res.send({success: false, result: 'El usuario no existe. Debe estar registrado.'});
+    const error = new  Error('USER_NOT_FOUND');
+    error.code = "USER_NOT_FOUND";
+    next(error);
   });
 };
 
@@ -43,10 +47,19 @@ module.exports.emailLogin = (req, res, next) => {
 /* ---------------------------- err ---------------------------- */
 
 router.use((err, req, res, next) => {
-    console.log(err);
-    customError(err, 'es', (miError) => {
-        console.log('miError:', miError);
-        res.json({success: false, error: miError});
-        return;
-    });
+
+    let idioma = 'es';
+    console.log('\n' + err + '\n');
+
+    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+        idioma = req.headers.language;
+    }
+    
+    customError(err, idioma)
+      .then((miError) => {
+        res.json({success: false, error: miError})
+      })
+      .catch((err) => {
+        next(err);
+      });
 });
