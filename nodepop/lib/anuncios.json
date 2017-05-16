@@ -43,7 +43,7 @@
             "nombre": "iPhone 7",
             "venta": true,
             "precio": 800.00,
-            "foto": "iphone7.png",
+            "foto": "iphone7.jpg",
             "tags": [
                 "lifestyle",
                 "mobile"
@@ -56,6 +56,95 @@
             "foto": "troncomovil.jpg",
             "tags": [
                 "motor"
+            ]
+        },
+        {
+            "nombre": "Dinero",
+            "venta": false,
+            "precio": 1000,
+            "foto": "dinero.jpg",
+            "tags": [
+                "work",
+                "lifestyle",
+                "motor",
+                "mobile"
+            ]
+        },
+        {
+            "nombre": "Ratón",
+            "venta": true,
+            "precio": 60,
+            "foto": "raton.jpg",
+            "tags": [
+                "work"
+            ]
+        },
+        {
+            "nombre": "Vacaciones",
+            "venta": false,
+            "precio": 325,
+            "foto": "vacaciones.jpg",
+            "tags": [
+                "work",
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "Ferrari",
+            "venta": true,
+            "precio": 50000,
+            "foto": "ferrari.jpg",
+            "tags": [
+                "motor"
+            ]
+        },
+        {
+            "nombre": "Deportivas",
+            "venta": false,
+            "precio": 65,
+            "foto": "deportivas.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "Montblanc",
+            "venta": true,
+            "precio": 755,
+            "foto": "montblanc.jpg",
+            "tags": [
+                "work"
+            ]
+        },
+        {
+            "nombre": "Elvis",
+            "venta": true,
+            "precio": 15,
+            "foto": "elvis.jpg",
+            "tags": [
+                "motor"
+            ]
+        },
+        {
+            "nombre": "Supervivencia Zombie",
+            "venta": true,
+            "precio": 50,
+            "foto": "zombie.jpg",
+            "tags": [
+                "work",
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "Pegatinas",
+            "venta": false,
+            "precio": 11,
+            "foto": "pegatinas.jpg",
+            "tags": [
+                "work",
+                "motor",
+                "mobile",
+                "lifestyle"
             ]
         }
     ]

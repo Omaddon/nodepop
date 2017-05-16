@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
     const skip = parseInt(req.query.start);
     const sort = req.query.sort;
 
-//localhost:3000/apiv1/anuncios?tag=mobile&venta=false&nombre=iPhone%203GS&precio=50&limit=2&sort=precio
+//localhost:3000/apiv1/anuncios?tag=mobile&venta=false&precio=50&limit=2&sort=precio
 
     // TAG (falla con 2 tags)
     if ((tag === 'work') || (tag === 'lifestryle') || (tag === 'motor') || (tag === 'mobile')) {
