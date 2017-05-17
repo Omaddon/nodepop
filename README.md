@@ -149,4 +149,4 @@ Por ejemplo:
 }
 ```
 
-##### *Derechos de* ***Miguel Jardón P.***
+###### *Derechos de* ***Miguel Jardón P.***
