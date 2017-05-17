@@ -8,7 +8,7 @@ API para aplicaciones de venta de artículos de segunda mano. Válida para iOS y
 * Foto del artículo. Cada anuncio tendrá solo una foto.
 * Tags del anuncio. Podrá contener uno o varios de estos cuatro: work, lifestyle, motor y mobile.
 
-La API quedará arrancada en localhost:3000 y la base de datos de mongo en el puerto por defecto (27017).
+La API quedará arrancada en localhost:3000 y la base de datos de *mongodb* en el puerto por defecto (27017).
 
 ## Dependencias
 
@@ -23,7 +23,7 @@ Las dependencias de NodeModules están registradas en el package.json de la API,
 
 ## Inicialización
 
-Antes de poder iniciar la API, debemos inicializar la base de datos de *MongoDB*. Para ello, debemos tener instalo *mongodb* previamente y correctamente configurado. Una vez hecho esto, desde la carpeta donde tengamos nuestra db, ejecutamos: 
+Antes de poder iniciar la API, debemos inicializar la base de datos de *MongoDB*. Para ello, debemos tener instalado *mongodb* previamente y correctamente configurado. Una vez hecho esto, desde la carpeta donde tengamos nuestra db, ejecutamos: 
 
 `$ bin/mongod --dbpath ./data/db --directoryperdb`
 
@@ -50,9 +50,9 @@ $ npm run installDB
 $ npm run devReset
 ```
 
- Tanto el modo ***instalación db*** como el modo ***instalación db y desarollo*** admiten dos variables de entorno para definir la expiración de los token generados por la API (incluído el usuario de prueba).
+ Tanto el modo ***instalación db*** como el modo ***instalación db y desarollo*** admiten dos variables de entorno para definir la expiración de los token generados por la API (incluido el usuario de prueba).
  
- * **TIME**: define la duración del token. Debe ser mayor que 0. Si no se especifíca o no es mayor que 0, por defecto será 5.
+ * **TIME**: define la duración del token. Debe ser mayor que 0. Si no se especifíca o no es mayor que 0, por defecto u omisión será 5.
  * **TYPE**: es el tipo de unidad de tiempo. Por ejemplo, 'm' dará una duración en minutos del tiempo específicado en TIME. Type debe ser del tipo: 'y', 'M', 'w', 'd', 'h', 'm', 's', 'ms' o 'Q' (año, mes, semana, dia, hora, minuto, segundo, milisegundo, quarter respectivamente). Si no se especifíca o no es un tipo válido, por defecto será 'm' (minutos).
  
  *Ejemplo*:
