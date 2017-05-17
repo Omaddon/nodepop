@@ -15,7 +15,7 @@ const isEmail = require('isemail');
 module.exports.emailSignup = (req, res, next) => {
     
     let idioma = 'es';
-    let error = {code: 'whaaaaaat'};
+    let error = {};
 
     console.log(!isEmail.validate(req.body.email));
 

@@ -11,7 +11,7 @@ let tipo = process.env.TYPE || 'm';
 // de los Token generados. En caso de variables de entorno no válidas, la validez
 // por defecto será de 5 minutos
 if ((tipo !== 'y') && (tipo !== 'M') && (tipo !== 'w') && (tipo !== 'd') && (tipo !== 'h')
-    && (tipo !== 'm') && (tipo !== 's') && (tipo !== 'ms') && (tipo !== 'y') && (tipo !== 'Q')
+    && (tipo !== 'm') && (tipo !== 's') && (tipo !== 'ms') && (tipo !== 'Q')
     || (tiempo <= 0)) {
     
     tiempo = 5;
