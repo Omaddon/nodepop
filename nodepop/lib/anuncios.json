@@ -80,6 +80,15 @@
             ]
         },
         {
+            "nombre": "Ratón",
+            "venta": false,
+            "precio": 40,
+            "foto": "raton.jpg",
+            "tags": [
+                "work"
+            ]
+        },
+        {
             "nombre": "Vacaciones",
             "venta": false,
             "precio": 325,
