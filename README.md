@@ -1,8 +1,13 @@
 # Nodepop v1.0.0
---
+==
 
 API para aplicaciones de venta de artículos de segunda mano. Válida para iOS y Android. Se usará una base de datos **Mongo** en la que se cargarán los anuncios y los usarios registrados. El registro de usuarios se llevará a cabo con **json web token**. Cada anuncio monstrará los siguientes datos:
-* Nombre del artículo, un anuncio siempre tendrá un solo artículo.* Si el artículo se vende o se busca.* Precio. Será el precio del artículo en caso de ser una oferta de venta. En caso de que sea un anuncio de ‘se busca’ será el precio que el solicitante estaría dispuesto a pagar.* Foto del artículo. Cada anuncio tendrá solo una foto.* Tags del anuncio. Podrá contener uno o varios de estos cuatro: work, lifestyle, motor y mobile.
+
+* Nombre del artículo, un anuncio siempre tendrá un solo artículo.
+* Si el artículo se vende o se busca.
+* Precio. Será el precio del artículo en caso de ser una oferta de venta. En caso de que sea un anuncio de ‘se busca’ será el precio que el solicitante estaría dispuesto a pagar.
+* Foto del artículo. Cada anuncio tendrá solo una foto.
+* Tags del anuncio. Podrá contener uno o varios de estos cuatro: work, lifestyle, motor y mobile.
 
 La API quedará arrancada en localhost:3000 y la base de datos de mongo en el puerto por defecto (27017).
 
@@ -41,7 +46,9 @@ $ npm run installDB
 ```
 $ npm run devReset
 ```
---
+
+==
+
  Tanto el modo ***instalación db*** como el modo ***instalación db y desarollo*** admiten dos variables de entorno para definir la expiración de los token generados por la API (incluído el usuario de prueba).
  
  * **TIME**: define la duración del token. Debe ser mayor que 0. Si no se especifíca o no es mayor que 0, por defecto será 5.
