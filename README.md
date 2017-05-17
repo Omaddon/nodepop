@@ -87,7 +87,7 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 * ***GET /apiv1/anuncios***: aquí podremos ver todos los anuncios de nuestra base de datos, siempre y cuando estemos registrados con un usuario válido. Bajo esta dirección se admiten filtros query:
 	* *tag*: para filtrar por algún tag de los existentes.
 	* *venta*: true o false. Filtra la búsqueda por anuncios en venta o en búsqueda.
-	* *nombre*: busca un anucio en concreto.
+	* *nombre*: devuelve todos los anuncios cuyo nombre coincidan con el filtro.
 	* *precio*: filtra los anuncios devueltos por precio. -50 mostrará precios máximo de 50. 50- mostrará precios de 50 o más. 50-100 mostrará precios en ese rango (ambos incluídos).
 	* *sort*: ordena los anuncios devueltos por el campo elegido de menor a mayor. Con '-' delante del campo lo hará en orden inverso.
 	* *limit*: limita los anuncios devueltos a dicho número.
