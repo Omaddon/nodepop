@@ -20,8 +20,8 @@ anuncioSchema.statics.deleteAll = function (callback) {
     });
 }
 
-anuncioSchema.statics.list = function(filter, limit, skip, sort, fields, callback) {
-    
+anuncioSchema.statics.list = function(filter, limit, skip, sort, fields) {
+
     console.log('Filtro en llamada:', filter);
 
     const query = Anuncio.find(filter);
@@ -30,7 +30,7 @@ anuncioSchema.statics.list = function(filter, limit, skip, sort, fields, callbac
     query.sort(sort);
     query.select(fields);
 
-    query.exec(callback);
+    return query.exec();
 };
 
 

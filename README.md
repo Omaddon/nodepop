@@ -23,7 +23,11 @@ Las dependencias de NodeModules están registradas en el package.json de la API,
 
 ## Inicialización
 
-Se proveen 4 métodos para inicializar la API. Se aconseja usar el *modo instalación db y desarollo*. Todos los métodos devuelven diversa información de utilidad por consola (como el 'token' del usuario generado de prueba).
+Antes de poder iniciar la API, debemos inicializar la base de datos de *MongoDB*. Para ello, debemos tener instalo *mongodb* previamente y correctamente configurado. Una vez hecho esto, desde la carpeta donde tengamos nuestra db, ejecutamos: 
+
+`$ bin/mongod --dbpath ./data/db --directoryperdb`
+
+Una vez arrancado *mongodb*, ya podemos inicializar *nodepop*. Se proveen 4 métodos para inicializar la API. Se aconseja usar el *modo instalación db y desarollo*. Todos los métodos devuelven diversa información de utilidad por consola (como el 'token' del usuario generado de prueba).
 
 * ***Modo estándar***: hace una carga simple de la API. No resetea la base de datos ni añade usuarios de test o anuncios.
 
@@ -68,7 +72,9 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 	* ***anuncions.json***: aquí podemos encontrar los anuncios que se cargarán al arrancar la API. Puede modificar este .json o añadir nuevos anuncios (respetando el esquema de datos).
 	* ***errors.json***: registro de todos los errores que captura la API. Se añade al error la internacionalización de los errores (es: español, en: inglés). Así como mensajes personalizados de error y su código.
 	* ***tags.js***: archivo javascript que devuelve el array con todos los tags disponibles de los anuncios. Si se quieren añadir nuevos tags disponibles para los anuncios, modificar este archivo.
-	* ***config.js***: archivo javascript dónde se almacenará la clave privada para firmar los 'token' generados con jwt. Este archivo no se proporciona por motivos de seguridad y debe ser generado manualmente. Ejemplo: `module.exports = { Token_Secret: 'secretpass'};`
+	* ***config.js***: archivo javascript dónde se almacenará la clave privada para firmar los 'token' generados con jwt. Este archivo no se proporciona por motivos de seguridad y debe ser generado manualmente. Ejemplo: 
+	
+	`module.exports = { Token_Secret: 'secretpass'};`
 
 * ***/bin***:
 	* ***/www***: aquí arrancamos la API y definimos la dirección y el puerto de escucha. Si se quiere cambiar, modificar este archivo.
@@ -86,6 +92,7 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 	* *sort*: ordena los anuncios devueltos por el campo elegido de menor a mayor. Con '-' delante del campo lo hará en orden inverso.
 	* *limit*: limita los anuncios devueltos a dicho número.
 	* *start*: paginación. Se salta los n resultados iniciales.
+	* *includeTotal*: true o false. Nos devolverá el número de resultados de la búsqueda, excluyendo los filtros de paginación (*sort* y *limit*). Si no se incluye, por defecto u omisión será false.
 * ***GET /apiv1/anuncios/tags***: devuelve los tags disponibles en la API.
 * ***POST /apiv1/anuncios***: si el usuario está registrado, le permite crear nuevos anuncios. *(no necesario, pero incluído a modo de práctica)*
 
@@ -111,27 +118,50 @@ Los mensajes de error que se proporcionan al usuario están disponibles en vario
 
 Las respuesta generadas por la API serán un json del tipo:
 
-`{success: true/false, result: 'resultado de la llamada'}`
+```js
+{
+"success": true/false, 
+"result": {"numAnuncios"?: ..., "anuncios": [ {...}, {...} ]} 
+}
+```
 
 Por ejemplo:
 
 ```js
 {
   "success": true,
-  "result": [
-    {
-      "nombre": "Tardis",
-      "venta": false,
-      "precio": 5000,
-      "foto": "tardis.jpg",
-      "tags": [
-        "work",
-        "mobile"
-      ]
-    }
+  "result": {
+    "numAnuncios": 3,
+    "anuncios": [
+      {
+        "nombre": "Montblanc",
+        "venta": true,
+        "precio": 755,
+        "foto": "montblanc.jpg",
+        "tags": [
+          "work"
+        ]
+      }
+    ]
+  }
 }
 ```
 
+El campo 'numAnuncios' solo aparecerá siempre y cuando *includeTotal* sea true (por defecto u omisión será false).
+
+Ejemplo de respuesta a la ruta */apiv1/anuncios/tags*:
+
+```js
+{
+  "success": true,
+  "tags": [
+    "work",
+    "lifestyle",
+    "motor",
+    "mobile"
+  ]
+}
+```
 
 >### *Modelo de error*
 
@@ -143,9 +173,13 @@ Por ejemplo:
 
 ```js
 {
-  "success": false,
-  "codeError": "404",
-  "error": "Error. La página a la que intenta acceder no existe."
+  "success": true,
+  "tags": [
+    "work",
+    "lifestyle",
+    "motor",
+    "mobile"
+  ]
 }
 ```
 

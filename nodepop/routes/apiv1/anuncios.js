@@ -10,9 +10,6 @@ const customError = require('../../lib/customError');
 
 router.get('/', (req, res, next) => {
 
-    console.log(req.usuario);
-    console.log(process.env.TOKENEXP);
-
     const filter = {};
 
     const tag = req.query.tag;
@@ -22,8 +19,7 @@ router.get('/', (req, res, next) => {
     const limit = parseInt(req.query.limit);
     const skip = parseInt(req.query.start);
     const sort = req.query.sort;
-
-//localhost:3000/apiv1/anuncios?tag=mobile&venta=false&precio=50&limit=2&sort=precio
+    const includeTotal = req.query.includeTotal;
 
     // TAG (falla con 2 tags)
     if (tags.indexOf(tag) >= 0) {
@@ -56,23 +52,40 @@ router.get('/', (req, res, next) => {
 
     // Fields (para eliminar _id y __v)
     const fields = { '_id': 0, '__v': 0 };    
-    
 
-    Anuncio.list(filter, limit, skip, sort, fields, (err, anuncios) => {
-        if (err) { 
-            console.log('\n\n >>> ERROR AL LEER DE LA BD:\n' + err + '\n\n');
-            return next(err) 
-        }
+    // INCLUDETOTAL
+    let numAnuncios;
 
-        res.json({ success: true, result: anuncios });
-    });
+    if (includeTotal === 'true') {
+        numAnuncios = Anuncio.list(filter);
+    } 
+
+    const buscar = Anuncio.list(filter, limit, skip, sort, fields);
+
+    Promise.all([numAnuncios, buscar])
+        .then(result => {
+            if (numAnuncios) {
+                res.json({
+                    success: true,
+                    result: { numAnuncios: result[0].length, anuncios: result[1] }
+                });
+            } else {
+                res.json({
+                    success: true,
+                    result: { anuncios: result[1] }
+                });
+            }
+        })
+        .catch(error => {
+            return res.json({ success: false, codeError: error.code, error: error.message });
+        });
 });
 
 
 /* ---------------------------- GET /apiv1/anuncios/tags ---------------------------- */
 
 router.get('/tags', (req, res, next) => {
-    res.send({success: true, tags: tags});
+    return res.json({success: true, tags: tags});
 });
 
 
@@ -84,7 +97,7 @@ router.post('/', (req, res, next) => {
     nuevoAnuncio.save((err, anuncioGuardado) => {
         if (err) { return next(err) };
 
-        res.json({success: true, result: anuncioGuardado});
+        return res.json({success: true, result: anuncioGuardado});
     });
 });
 
@@ -94,7 +107,6 @@ router.post('/', (req, res, next) => {
 router.use((err, req, res, next) => {
     
     let idioma = 'es';
-    console.log('\n' + err + '\n');
 
     if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
         idioma = req.headers.language;
@@ -102,10 +114,10 @@ router.use((err, req, res, next) => {
    
     return customError(err, idioma)
       .then((miError) => {
-        res.json({ success: false, codeError: miError.code, error: miError.message });
+        return res.json({ success: false, codeError: miError.code, error: miError.message });
       })
       .catch((err) => {
-        next(err);
+        return next(err);
       });
 });
 
