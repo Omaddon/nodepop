@@ -20,6 +20,7 @@ Las dependencias de NodeModules están registradas en el package.json de la API,
 4. [moment](https://github.com/moment/moment/) ---> manejo de tiempo para la gestión de los 'token'.
 5. [mongoose](https://github.com/Automattic/mongoose) ---> ODM (Object Document Mapper).
 6. [morgan](https://github.com/expressjs/morgan) ---> HTTP request logger middleware.
+7. [hash.js](https://github.com/indutny/hash.js) ---> Hash encoder.
 
 ## Inicialización
 
@@ -101,7 +102,7 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 * ***POST /auth/signup***: nos permite registrar un nuevo usuario mediante jwt del usuario que nos den en el body de la petición, con la estructura siguiente:
 	* *nombre*: no debe ser vacío, sin espacios en blanco. Se admiten nombres duplicados en db.
 	* *email*: debe ser un correo válido. No admite duplicados en la db.
-	* *clave*: debe tener una longitud mayor o igual a 4. Admite duplicados en la db.
+	* *clave*: debe tener una longitud mayor o igual a 4. Admite duplicados en la db. Se hará un hash sobre ella antes de guardarla (o compararla).
 
 Una vez registrado, la API nos devuelve un 'token' firmado, con la duración especificada en el arranque (por defecto 5 minutos). Dicho 'token' debe estar siempre presente en el header bajo la key 'token', en la ruta como un query bajo la key 'token' o en el body bajo la key 'token. Se compondrá del nombre del usuario, seguido de un espacio y el 'token' proporcionado por la API. En caso de no proporcionar el 'token', o si la validez de éste ha expirado, no se podrá acceder a ninguna ruta de la API, salvo a /auth. Un ejemplo podría ser:
 
@@ -112,7 +113,7 @@ Una vez registrado, la API nos devuelve un 'token' firmado, con la duración esp
 
 >### *Internacionalización*
 
-Los mensajes de error que se proporcionan al usuario están disponibles en varios idiomas. En toda petición se comproborá que en la cabecera haya una key *language* con un valor 'es' o 'en' (español, inglés respectivamente). Si no aparece la key, el idioma por defecto es el español. No se admiten idiomas diferentes.
+Los mensajes de error que se proporcionan al usuario están disponibles en varios idiomas. En toda petición se comproborá que en la cabecera, en el body o en la query haya una key *language* con un valor 'es' o 'en' (español, inglés respectivamente). Si no aparece la key, el idioma por defecto es el español. No se admiten idiomas diferentes (genera un error de *idioma no soportado*).
 
 >### *Modelo de respuesta*
 
