@@ -7,6 +7,7 @@ const Usuario = require('../../models/Usuario');
 const service = require('../../lib/service')
 const customError = require('../../lib/customError');
 const isEmail = require('isemail');
+const hash = require('hash.js');
 
 
 /* ---------------------------- POST ---------------------------- */
@@ -16,12 +17,15 @@ module.exports.emailSignup = (req, res, next) => {
     
     let idioma = 'es';
     let error = {};
+    const claveUsuario = req.body.clave;
 
-    console.log(!isEmail.validate(req.body.email));
-
-    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
+    if ((req.query.language === 'es') || (req.query.language === 'en')) {
+        idioma = req.query.language;
+    } else if ((req.body.language === 'es') || (req.body.language === 'en')) {
+        idioma = req.body.language;
+    } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
         idioma = req.headers.language;
-    } else if (req.headers.language) {
+    } else if ((req.headers.language) || (req.body.language) || (req.query.language)) {
 
         /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
         error = new Error('IDIOM_NOT_FOUND');
@@ -62,14 +66,16 @@ module.exports.emailSignup = (req, res, next) => {
      }
      /* ----------------------------------------------------------- */
 
+    let claveHash = hash.sha256().update(claveUsuario).digest('hex');
+
     const nuevoUsario = new Usuario({
         'nombre': req.body.nombre,
         'email': req.body.email,
-        'clave': req.body.clave
+        'clave': claveHash
     });
 
     nuevoUsario.save((err, usuarioGuardado) => {
-        if (err) { return next(err) }
+        if (err) { return next(err); }
 
         return res.json({ success: true, result: service.createToken(nuevoUsario) });
     });
@@ -82,15 +88,23 @@ module.exports.emailLogin = (req, res, next) => {
   Usuario.find({ email: req.body.email}, (err, usuarios) => {
     if (err) { return next(err) }
 
+    let error;
+    const claveUsuario = req.body.clave;
+    const claveHash = hash.sha256().update(claveUsuario).digest('hex');
+
     if (usuarios.length > 0) {
-        if (((usuarios)[0].clave) === req.body.clave) {
+        if (((usuarios)[0].clave) === claveHash) {
             return res.json({ success: true, result: service.createToken(usuarios) });
+        } else {
+            error = new Error('PASS_FAIL');
+            error.code = 'PASS_FAIL';
+            return next(error);
         }
     }
 
-    const error = new  Error('USER_NOT_FOUND');
+    error = new Error('USER_NOT_FOUND');
     error.code = "USER_NOT_FOUND";
-    next(error);
+    return next(error);
   });
 };
 
@@ -102,8 +116,12 @@ router.use((err, req, res, next) => {
     let idioma = 'es';
     console.log('\n' + err + '\n');
 
-    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
-        idioma = req.headers.language;
+    if ((req.query.language === 'es') || (req.query.language === 'en')) {
+      idioma = req.query.language;
+    } else if ((req.body.language === 'es') || (req.body.language === 'en')) {
+      idioma = req.body.language;
+    } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
+      idioma = req.headers.language;
     }
     
     return customError(err, idioma)

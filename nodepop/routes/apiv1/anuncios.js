@@ -108,8 +108,12 @@ router.use((err, req, res, next) => {
     
     let idioma = 'es';
 
-    if ((req.headers.language) && ((req.headers.language === 'es') || (req.headers.language === 'en'))) {
-        idioma = req.headers.language;
+    if ((req.query.language === 'es') || (req.query.language === 'en')) {
+      idioma = req.query.language;
+    } else if ((req.body.language === 'es') || (req.body.language === 'en')) {
+      idioma = req.body.language;
+    } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
+      idioma = req.headers.language;
     }
    
     return customError(err, idioma)
