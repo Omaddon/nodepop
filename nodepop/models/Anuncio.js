@@ -6,10 +6,19 @@ const mongoose = require('mongoose');
 
 const anuncioSchema = mongoose.Schema({
     nombre: String,
-    venta: Boolean,
-    precio: Number,
+    venta: {
+        type: Boolean,
+        index: true
+    },
+    precio: {
+        type: Number,
+        index: true,
+    },
     foto: String,
-    tags: [String]
+    tags: {
+        type: [String],
+        index: true
+    }
 });
 
 anuncioSchema.statics.deleteAll = function (callback) {
