@@ -25,7 +25,7 @@ module.exports.emailSignup = (req, res, next) => {
         idioma = req.body.language;
     } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
         idioma = req.headers.language;
-    } else if ((req.headers.language) || (req.body.language) || (req.query.language)) {
+    } else {
 
         /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
         error = new Error('IDIOM_NOT_FOUND');
@@ -85,16 +85,39 @@ module.exports.emailSignup = (req, res, next) => {
 /*  POST /authlogin  */
 module.exports.emailLogin = (req, res, next) => {
 
-  Usuario.find({ email: req.body.email}, (err, usuarios) => {
+    let idioma = 'es';
+
+    if ((req.query.language === 'es') || (req.query.language === 'en')) {
+        idioma = req.query.language;
+    } else if ((req.body.language === 'es') || (req.body.language === 'en')) {
+        idioma = req.body.language;
+    } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
+        idioma = req.headers.language;
+    } else {
+
+        /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
+        const error = new Error('IDIOM_NOT_FOUND');
+        error.code = 'IDIOM_NOT_FOUND';
+
+        return customError(error, idioma)
+            .then((miError) => {
+                res.json({ success: false, codeError: miError.code, error: miError.message });
+            })
+            .catch((err) => {
+                next(err);
+            });
+    }
+
+  Usuario.findOne({ email: req.body.email}, (err, usuario) => {
     if (err) { return next(err) }
 
     let error;
     const claveUsuario = req.body.clave;
     const claveHash = hash.sha256().update(claveUsuario).digest('hex');
 
-    if (usuarios.length > 0) {
-        if (((usuarios)[0].clave) === claveHash) {
-            return res.json({ success: true, result: service.createToken(usuarios) });
+    if (usuario) {
+        if ((usuario.clave) === claveHash) {
+            return res.json({ success: true, result: service.createToken(usuario) });
         } else {
             error = new Error('PASS_FAIL');
             error.code = 'PASS_FAIL';
