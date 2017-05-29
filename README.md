@@ -53,8 +53,8 @@ $ npm run devReset
 
  Tanto el modo ***instalación db*** como el modo ***instalación db y desarollo*** admiten dos variables de entorno para definir la expiración de los token generados por la API (incluido el usuario de prueba).
  
- * **TIME**: define la duración del token. Debe ser mayor que 0. Si no se especifíca o no es mayor que 0, por defecto u omisión será 5.
- * **TYPE**: es el tipo de unidad de tiempo. Por ejemplo, 'm' dará una duración en minutos del tiempo específicado en TIME. Type debe ser del tipo: 'y', 'M', 'w', 'd', 'h', 'm', 's', 'ms' o 'Q' (año, mes, semana, dia, hora, minuto, segundo, milisegundo, quarter respectivamente). Si no se especifíca o no es un tipo válido, por defecto será 'm' (minutos).
+ * **TIME**: define la duración del token. Debe ser mayor que 0. Si no se especifíca o no es mayor que 0, por defecto u omisión será 1.
+ * **TYPE**: es el tipo de unidad de tiempo. Por ejemplo, 'm' dará una duración en minutos del tiempo específicado en TIME. Type debe ser del tipo: 'y', 'M', 'w', 'd', 'h', 'm', 's', 'ms' o 'Q' (año, mes, semana, dia, hora, minuto, segundo, milisegundo, quarter respectivamente). Si no se especifíca o no es un tipo válido, por defecto será 'w' (semanas).
  
  *Ejemplo*:
  
@@ -175,13 +175,9 @@ Por ejemplo:
 
 ```js
 {
-  "success": true,
-  "tags": [
-    "work",
-    "lifestyle",
-    "motor",
-    "mobile"
-  ]
+  "success": false,
+  "codeError": "404",
+  "error": "Error. La página a la que intenta acceder no existe."
 }
 ```
 
