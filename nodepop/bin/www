@@ -7,12 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('nodepop:server');
 var http = require('http');
+const local_config = require('../lib/local_config');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || local_config.port);
 app.set('port', port);
 
 
@@ -32,6 +33,7 @@ if (cluster.isMaster) {
    * Create HTTP server.
    */
 
+  console.log('Nodepop escuchando en puerto:', local_config.port);
   var server = http.createServer(app);
 
   /**

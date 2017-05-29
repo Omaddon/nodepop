@@ -73,7 +73,7 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 	* ***anuncions.json***: aquí podemos encontrar los anuncios que se cargarán al arrancar la API. Puede modificar este .json o añadir nuevos anuncios (respetando el esquema de datos).
 	* ***errors.json***: registro de todos los errores que captura la API. Se añade al error la internacionalización de los errores (es: español, en: inglés). Así como mensajes personalizados de error y su código.
 	* ***tags.js***: archivo javascript que devuelve el array con todos los tags disponibles de los anuncios. Si se quieren añadir nuevos tags disponibles para los anuncios, modificar este archivo.
-	* ***local_config.json***: aquí podemos encontrar configuración local relativa a: la cadena de conexión a la base de datos de mongodb, el ususario para test creado al iniciar y la duración del 'token' por defecto u omisión.
+	* ***local_config.json***: aquí podemos encontrar configuración local relativa a: la cadena de conexión a la base de datos de mongodb, el puerto de escucha de la API (por defecto 3000), el ususario para test creado al iniciar y la duración del 'token' por defecto u omisión.
 	* ***config.js***: archivo javascript dónde se almacenará la clave privada para firmar los 'token' generados con jwt. Este archivo no se proporciona por motivos de seguridad y debe ser generado manualmente. Ejemplo: 
 	
 	`module.exports = { Token_Secret: 'secretpass'};`

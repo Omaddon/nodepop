@@ -1,5 +1,6 @@
 {
     "mongodbPath": "mongodb://localhost/nodepop",
+    "port": 3000,
     "testUser": {
         "nombre": "userTest",
         "email": "userTest@gmail.com",
