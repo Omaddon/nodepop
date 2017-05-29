@@ -3,9 +3,10 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');       // Para el formateo de fechas y demás
 const config = require('./config');     // Nuestro token secreto para el jwt
+const local_config = require('./local_config');
 
-let tiempo = process.env.TIME || 5;
-let tipo = process.env.TYPE || 'm';
+let tiempo = process.env.TIME || local_config.TokenDuration.TIME;
+let tipo = process.env.TYPE || local_config.TokenDuration.TYPE;
 
 // Comprobamos variables de entorno personalizadas para ajustar la duración de validez
 // de los Token generados. En caso de variables de entorno no válidas, la validez
@@ -14,8 +15,8 @@ if ((tipo !== 'y') && (tipo !== 'M') && (tipo !== 'w') && (tipo !== 'd') && (tip
     && (tipo !== 'm') && (tipo !== 's') && (tipo !== 'ms') && (tipo !== 'Q')
     || (tiempo <= 0)) {
     
-    tiempo = 5;
-    tipo = 'm';
+    tiempo = local_config.TokenDuration.TIME;
+    tipo = local_config.TokenDuration.TYPE;
 }
 module.exports.createToken = (usuario) => {
     const payload = {

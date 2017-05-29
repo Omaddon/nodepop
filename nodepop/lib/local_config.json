@@ -1,0 +1,12 @@
+{
+    "mongodbPath": "mongodb://localhost/nodepop",
+    "testUser": {
+        "nombre": "userTest",
+        "email": "userTest@gmail.com",
+        "clave": "1234"
+    },
+    "TokenDuration": {
+        "TYPE": "w",
+        "TIME": 1
+    }
+}

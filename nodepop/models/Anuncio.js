@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
  /* --------------------------------- ANUNCIO --------------------------------- */
 
 const anuncioSchema = mongoose.Schema({
-    nombre: String,
+    nombre: {
+        type: String,
+        index: true
+    },
     venta: {
         type: Boolean,
         index: true
@@ -14,7 +17,10 @@ const anuncioSchema = mongoose.Schema({
         type: Number,
         index: true,
     },
-    foto: String,
+    foto: {
+        type: String,
+        index: true
+    },
     tags: {
         type: [String],
         index: true

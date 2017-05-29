@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
+const local_config = require('./local_config');
 
 mongoose.Promise = global.Promise;
 
@@ -15,4 +16,4 @@ connection.once('open', () => {
 });
 
 // db: nodepop | 2 collections: anuncios + users
-mongoose.connect('mongodb://localhost/nodepop');
+mongoose.connect(local_config.mongodbPath);

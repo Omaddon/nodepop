@@ -7,9 +7,10 @@ const Usuario = require('../models/Usuario');
 const fs = require('fs');
 const path = require('path');
 const service = require('./service');
+const local_config = require('./local_config');
 
 
-mongoose.connect('mongodb://localhost/nodepop');
+mongoose.connect(local_config.mongodbPath);
 
 /* --------------------------------- Funciones Aux --------------------------------- */
 
@@ -72,10 +73,7 @@ Anuncio.deleteAll(err => {
         console.log('...Borrado de la db Usuarios: OK');
 
         // TOKEN: ver consola
-        guardarUsuario({
-            nombre: "userTest",
-            email: "userTest@gmail.com",
-            clave: "1234"})
+        guardarUsuario(local_config.testUser)
             .then((token) => {
                 console.log('...db cargada con Usuario de prueba: OK');
                 console.log('TOKEN:\n' + 'userTest ' + token);
