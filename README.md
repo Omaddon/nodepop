@@ -11,7 +11,7 @@ API para aplicaciones de venta de artículos de segunda mano. Válida para iOS y
 La API quedará arrancada en localhost:3000 y la base de datos de *mongodb* en el puerto por defecto (27017).
 
 ## Despliegue
-La API ha sido desplegada en *[migueljp.com](http://migueljp.com)* o *[nodepop.migueljp.com](http://nodepop.migueljp.com)*
+La API ha sido desplegada en [www.migueljp.com](https://www.migueljp.com) [migueljp.com](https://migueljp.com) y [nodepop.migueljp.com](https://nodepop.migueljp.com).
 
 ## Dependencias
 
