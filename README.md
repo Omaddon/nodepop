@@ -98,7 +98,7 @@ A continuación se detalla el funcionamiento de ***nodepop***, así como su estr
 * ***GET /apiv1/anuncios/tags***: devuelve los tags disponibles en la API.
 * ***POST /apiv1/anuncios***: si el usuario está registrado, le permite crear nuevos anuncios. *(no necesario, pero incluído a modo de práctica)*
 
-* ***GET /images/anuncios/nombredelrecurso.extensión***: nos devuelve la imagen del anuncio. Se debe buscar una imagen en concreto, no el anuncio, incluyendo la extensión.
+* ***GET /images/nombredelrecurso.extensión***: nos devuelve la imagen del anuncio. Se debe buscar una imagen en concreto, no el anuncio, incluyendo la extensión.
 
 * ***POST /auth/signup***: nos permite registrar un nuevo usuario mediante jwt del usuario que nos den en el body de la petición, con la estructura siguiente:
 	* *nombre*: no debe ser vacío, sin espacios en blanco. Se admiten nombres duplicados en db.
