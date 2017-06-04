@@ -10,6 +10,9 @@ API para aplicaciones de venta de artículos de segunda mano. Válida para iOS y
 
 La API quedará arrancada en localhost:3000 y la base de datos de *mongodb* en el puerto por defecto (27017).
 
+## Despliegue
+La API ha sido desplegada en *[migueljp.com](http://migueljp.com)* o *[nodepop.migueljp.com](http://nodepop.migueljp.com)*
+
 ## Dependencias
 
 Las dependencias de NodeModules están registradas en el package.json de la API, por lo que para poder iniciar correctamente antes debe hacerse una instalacción de éstas con: `npm install` desde la carpeta de *nodepop*.
