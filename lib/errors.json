@@ -46,7 +46,7 @@
     },
     "NAME_FAIL": {
         "es": "Error. Nombre incorrecto.",
-        "en": "Error. Namel incorrect.",
+        "en": "Error. Name incorrect.",
         "code": 406
     },
     "PASS_FAIL": {
