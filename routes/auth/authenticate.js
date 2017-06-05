@@ -120,6 +120,11 @@ module.exports.emailLogin = (req, res, next) => {
     const claveHash = hash.sha256().update(claveUsuario).digest('hex');
 
     if (usuario) {
+        if ((usuario.nombre) !== req.body.nombre) {
+            error = new Error('NAME_FAIL');
+            error.code = 'NAME_FAIL';
+            return next(error);
+        }
         if ((usuario.clave) === claveHash) {
             return res.json({ success: true, result: service.createToken(usuario) });
         } else {
