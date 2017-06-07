@@ -1,5 +1,4 @@
 {
-    // "mongodbPath": "mongodb://localhost/nodepop",
     "mongodbPath": "mongodb://nodepop:practicakc@localhost/nodepop",
     "port": 3000,
     "testUser": {
