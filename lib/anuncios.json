@@ -21,6 +21,16 @@
             ]
         },
         {
+            "nombre": "Destornillador sónico",
+            "venta": true,
+            "precio": 82.00,
+            "foto": "sonico.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
             "nombre": "Tardis",
             "venta": false,
             "precio": 5000.00,
@@ -34,7 +44,7 @@
             "nombre": "Sable Laser",
             "venta": true,
             "precio": 120.99,
-            "foto": "sableLaser.png",
+            "foto": "sablelaser.jpg",
             "tags": [
                 "lifestyle"
             ]
