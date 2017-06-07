@@ -2,3 +2,5 @@ node_modules
 *.pdf
 .vscode
 .DS_Store
+update.log
+update.sh
