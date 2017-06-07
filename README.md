@@ -15,11 +15,11 @@ La API ha sido desplegada en [www.migueljp.com](https://www.migueljp.com), [migu
 
 Ejemplo de ruta a anuncios:
 
-[migueljp.com/apiv1/anuncios?includeTotal=true](migueljp.com/apiv1/anuncios?includeTotal=true)
+[migueljp.com/apiv1/anuncios?includeTotal=true](https://migueljp.com/apiv1/anuncios?includeTotal=true)
 
 Ejemplo de ruta a imágenes:
 
-[migueljp.com/images/bici.jpg](migueljp.com/images/bici.jpg)
+[migueljp.com/images/bici.jpg](https://migueljp.com/images/bici.jpg)
 
 
 ## Dependencias
