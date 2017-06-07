@@ -25,7 +25,9 @@ module.exports.emailSignup = (req, res, next) => {
         idioma = req.body.language;
     } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
         idioma = req.headers.language;
-    } else {
+    } else if ((typeof(req.query.language) == 'undefined')
+            || (typeof(req.body.language) == 'undefined') 
+            || (typeof(req.headers.language) == 'undefined')) {
 
         /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
         error = new Error('IDIOM_NOT_FOUND');
@@ -93,7 +95,9 @@ module.exports.emailLogin = (req, res, next) => {
         idioma = req.body.language;
     } else if ((req.headers.language === 'es') || (req.headers.language === 'en')) {
         idioma = req.headers.language;
-    } else {
+    } else if ((typeof(req.query.language) == 'undefined')
+            || (typeof(req.body.language) == 'undefined') 
+            || (typeof(req.headers.language) == 'undefined')) {
 
         /* ---------------------------- ERRORES DE IDIOMA NO SOPOARTADO ---------------------------- */
         const error = new Error('IDIOM_NOT_FOUND');
@@ -116,6 +120,11 @@ module.exports.emailLogin = (req, res, next) => {
     const claveHash = hash.sha256().update(claveUsuario).digest('hex');
 
     if (usuario) {
+        if ((usuario.nombre) !== req.body.nombre) {
+            error = new Error('NAME_FAIL');
+            error.code = 'NAME_FAIL';
+            return next(error);
+        }
         if ((usuario.clave) === claveHash) {
             return res.json({ success: true, result: service.createToken(usuario) });
         } else {
