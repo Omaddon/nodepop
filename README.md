@@ -11,8 +11,16 @@ API para aplicaciones de venta de artículos de segunda mano. Válida para iOS y
 La API quedará arrancada en localhost:3000 y la base de datos de *mongodb* en el puerto por defecto (27017).
 
 ## Despliegue
-La API ha sido desplegada en [www.migueljp.com](https://www.migueljp.com), [migueljp.com](https://migueljp.com) y [nodepop.migueljp.com](https://nodepop.migueljp.com). Además podemos acceder a través de la [IP-Pública](
-34.225.14.240) para visualizar la página de inicio de la API.
+La API ha sido desplegada en [www.migueljp.com](https://www.migueljp.com), [migueljp.com](https://migueljp.com) y [nodepop.migueljp.com](https://nodepop.migueljp.com). Además podemos acceder a través de la *IP-Pública*: 34.225.14.240 para visualizar la página hmtl de inicio de la API. Veáse que las URl aquí mostradas sólo indican la ruta de presentación de la API. Se deberá acceder a las rutas mediante las estructura de rutas indicada en este documento.
+
+Ejemplo de ruta a anuncios:
+
+[migueljp.com/apiv1/anuncios?includeTotal=true](migueljp.com/apiv1/anuncios?includeTotal=true)
+
+Ejemplo de ruta a imágenes:
+
+[migueljp.com/images/bici.jpg](migueljp.com/images/bici.jpg)
+
 
 ## Dependencias
 
